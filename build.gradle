@@ -1,14 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
@@ -22,12 +19,42 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 ext {
     compileSdkVersion = 23
     buildToolsVersion = "23.0.2"
     versionCode = 1
     versionName = "0.1.0"
 
+    nearbyApiKey = properties.getProperty('nearby.key')
+
     libAppCompat7 = 'com.android.support:appcompat-v7:23.1.1'
     libJunit = 'junit:junit:4.12'
+    libRxJava = 'io.reactivex:rxjava:1.1.0'
+    libRxAndroid = 'io.reactivex:rxandroid:1.1.0'
+    libPlayServicesNearby = 'com.google.android.gms:play-services-nearby:8.3.0'
+    libSupportAnnotations = 'com.android.support:support-annotations:22.2.0'
+
+    libraryDescription = 'Wraps the Nearby Messages API using RxJava observables'
+    libraryName = 'rxnearbymessages'
+    libraryGit = 'https://github.com/asadmshah/RxNearbyMessages.git'
+    libraryUrl = 'https://github.com/asadmshah/RxNearbyMessages'
+    libraryVersion = versionName
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    licenseList = ["Apache-2.0"]
+
+    bintrayRepo = 'maven'
+    bintrayName = libraryName
+    bintrayUser = properties.getProperty('bintray.user')
+    bintrayKey = properties.getProperty('bintray.apikey')
+
+    developerId = 'asadmshah'
+    developerName = 'Asad Shah'
+    developerEmail = 'me@asadmshah.com'
+
+    publishedGroupId = 'com.asadmshah.rxnearbymessages'
 }

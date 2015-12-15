@@ -12,6 +12,10 @@ android {
         versionName rootProject.ext.versionName
     }
     buildTypes {
+        debug {
+            resValue "string", "NEARBY_API_KEY", rootProject.ext.nearbyApiKey
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -23,6 +27,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':rxnearbymessages')
     compile rootProject.ext.libAppCompat7
+    compile rootProject.ext.libRxJava
+    compile rootProject.ext.libRxAndroid
 
     testCompile rootProject.ext.libJunit
 }

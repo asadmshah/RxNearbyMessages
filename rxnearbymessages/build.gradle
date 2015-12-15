@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -20,7 +22,88 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile rootProject.ext.libAppCompat7
+    compile rootProject.ext.libRxJava
+    compile rootProject.ext.libPlayServicesNearby
+    compile rootProject.ext.libSupportAnnotations
 
     testCompile rootProject.ext.libJunit
+}
+
+group = rootProject.ext.publishedGroupId
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId rootProject.ext.publishedGroupId
+                artifactId rootProject.ext.libraryName
+
+                name rootProject.ext.libraryName
+                description rootProject.ext.libraryDescription
+                url rootProject.ext.libraryUrl
+
+                licenses {
+                    license {
+                        name rootProject.ext.licenseName
+                        url rootProject.ext.licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id rootProject.ext.developerId
+                        name rootProject.ext.developerName
+                        email rootProject.ext.developerEmail
+                    }
+                }
+                scm {
+                    connection rootProject.ext.libraryGit
+                    developerConnection rootProject.ext.libraryGit
+                    url rootProject.ext.libraryUrl
+                }
+            }
+        }
+    }
+}
+
+version = rootProject.ext.libraryVersion
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = rootProject.ext.bintrayUser
+    key = rootProject.ext.bintrayKey
+
+    configurations = ['archives']
+
+    pkg {
+        repo = rootProject.ext.bintrayRepo
+        name = rootProject.ext.bintrayName
+        desc = rootProject.ext.libraryDescription
+        websiteUrl = rootProject.ext.libraryUrl
+        vcsUrl = rootProject.ext.libraryGit
+        licenses = rootProject.ext.licenseList
+        publish = true
+        version {
+            desc = rootProject.ext.libraryDescription
+        }
+    }
 }
