@@ -12,6 +12,22 @@ Wraps the Nearby Messages API using [RxJava](https://github.com/ReactiveX/RxJava
 
 [Learn More](https://developers.google.com/nearby/messages/overview)
 
+## Download
+
+via Maven:
+```xml
+<dependency>
+    <groupId>com.asadmshah.rxnearbymessages</groupId>
+    <artifactId>rxnearbymessages</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+via Gradle:
+```groovy
+compile 'com.asadmshah.rxnearbymessages:rxnearbymessages:0.1.0'
+```
+
 ## Usage
 
 Before you get started with the Nearby Messages API, you're going to need to specify an API key in
@@ -89,7 +105,7 @@ so remember to do that.
 
 ## Sample Application
 
-The sample application requires a `NEARBY_API_KEY` to be defined in your `local.properties` file.
+The sample application requires a `nearby.key` to be defined in your `local.properties` file.
 
 ## License
 
